@@ -4,7 +4,7 @@ body {
 }
 
 #app {
-  width: 55%;
+  width: 350px;
 }
 
 #portfolio-summary {
@@ -117,13 +117,13 @@ body {
 #table .val {
   font-size: 12px;
   font-weight: 400;
-  padding-right: 40px;
+  padding-right: 20px;
   padding-top: 10px;
 }
 
 #table .val.symbol {
   font-weight: 700;
-  padding-right: 15px;
+  padding-right: 30px;
   color: #0f69ff;
 }
 
@@ -137,7 +137,7 @@ body {
 
 #table .val .span-data.animate-pos {
   transition-property: background-color;
-  animation: blink-pos 2s 1;
+  animation: blink-pos 1s 1;
 }
 
 @keyframes blink-pos {
@@ -145,19 +145,15 @@ body {
     background: #ccff33;
     color: #000;
   }
-  50% {
-    background: #55a630;
-    color: #000;
-  }
   100% {
-    background: #2b9348;
+    background: #55a630;
     color: #000;
   }
 }
 
 #table .val .span-data.animate-neg {
   transition-property: background-color;
-  animation: blink-neg 2s 1;
+  animation: blink-neg 1s 1;
 }
 
 @keyframes blink-neg {
@@ -165,12 +161,8 @@ body {
     background: #fbb1bd;
     color: #000;
   }
-  50% {
-    background: #ec5766;
-    color: #000;
-  }
   100% {
-    background: #d91e36;
+    background: #ec5766;
     color: #000;
   }
 }
@@ -187,4 +179,12 @@ body {
 
 #table .val span {
   display: block;
+}
+
+#table thead > tr {
+  padding-bottom: 5px;
+  border-bottom: 1pt solid #8d99ae;
+}
+#table thead > tr .tcol {
+  padding-bottom: 15px;
 }

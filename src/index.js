@@ -20,13 +20,14 @@ let pfIds = [];
 let toggle = false;
 let intervalId;
 
+// Get the PortFolio Data.
 getData("https://7w9k9.wiremockapi.cloud/portfolios")
   .then((result) => {
+    // update data Store.
     portfolios.setPortFolioData(result);
     //console.log("portfolios", portfolios.getBasePortFolio());
     //console.log("pf", portfolios.getPortFolioMeta());
-    // update data Store.
-    // Update UI.
+    // Get Quotes Data.
     getQuotes();
   })
   .catch((error) => {
@@ -34,6 +35,7 @@ getData("https://7w9k9.wiremockapi.cloud/portfolios")
     // Update UI
   });
 
+// PortFolio Main Market Data.
 const updateBasePortFolioData = (pfId = "all") => {
   let pdata;
   if (pfId == "all") {
@@ -65,6 +67,7 @@ const updateBasePortFolioData = (pfId = "all") => {
 
   marketNode.appendChild(addSpanNodeUtil("Market Value", "n-val"));
 
+  // Daily Delta
   const dailyGainNode = document.querySelector("#gain .dailygain");
   dailyGainNode.innerHTML = "";
   dailyGainNode.appendChild(
@@ -78,6 +81,7 @@ const updateBasePortFolioData = (pfId = "all") => {
   );
   dailyGainNode.appendChild(addSpanNodeUtil("Daily Gain", "k-val"));
 
+  // TOTAL Delta
   const totalGainNode = document.querySelector("#gain .totalgain");
   totalGainNode.innerHTML = "";
   totalGainNode.appendChild(
@@ -92,6 +96,7 @@ const updateBasePortFolioData = (pfId = "all") => {
   totalGainNode.appendChild(addSpanNodeUtil("Total Gain", "k-val"));
 };
 
+// Construct Symbols Table.
 const generateSymBolTable = () => {
   const tableBodyData = constructTBodyData();
   generateTable(tableBodyData, quotes);
@@ -126,6 +131,7 @@ const constructTBodyData = (pfId = "all") => {
   return tbodyData;
 };
 
+// Simulates Continues streaming through set Interval.
 const simulateStreaming = () => {
   // the same number as the index
   removeAnimation();
@@ -172,6 +178,7 @@ const removeAnimation = () => {
   });
 };
 
+// Where we add all portfolios to drop down.
 const addPortFolio = () => {
   const portfoliosMeta = portfolios.getPortFolioMeta();
   const selectNode = document.getElementById("pf");
@@ -188,8 +195,8 @@ const addPortFolio = () => {
 };
 
 const updatePortFolioData = (event) => {
-  updateBasePortFolioData(event.target.value);
   clearInterval(intervalId);
+  updateBasePortFolioData(event.target.value);
   const tableBodyData = constructTBodyData(event.target.value);
   generateTable(tableBodyData, quotes);
   intervalId = setInterval(simulateStreaming, 8000);
@@ -206,6 +213,7 @@ const addDistincSymbols = (pfId) => {
   });
 };
 
+// Quotes API
 const getQuotes = () => {
   getData("https://7w9k9.wiremockapi.cloud/quote")
     .then((result) => {
