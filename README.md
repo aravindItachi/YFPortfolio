@@ -9,3 +9,7 @@ https://3fsdyj.csb.app/
 - ES6 is used.
 - classes have been used.
 - Tested on chrome, Safari and Mozilla
+
+### Limitation
+- Only for USD
+- No Unit tests 
