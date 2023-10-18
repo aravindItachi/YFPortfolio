@@ -1,0 +1,190 @@
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  background-color: #e5e5e5;
+}
+
+#app {
+  width: 55%;
+}
+
+#portfolio-summary {
+  background-color: #ffff;
+  border-radius: 10px;
+  border: 2px solid #e5e5e5;
+  font-size: 17px;
+  font-weight: 400;
+  padding: 20px;
+}
+
+#select-pf {
+  margin-top: 20px;
+}
+
+#pf {
+  padding: 5px;
+  background-color: #ced4da;
+  font-size: 13px;
+  font-weight: 400;
+  border-radius: 10px;
+  width: 150px;
+  border: 2px solid #e5e5e5;
+  text-overflow: ellipsis;
+  font-family: Helvetica Neue, Arial, sans-serif;
+}
+
+#pf > option {
+  width: 150px;
+}
+
+#symbols {
+  background-color: #ffff;
+  border-radius: 10px;
+  border: 2px solid #e5e5e5;
+  font-size: 17px;
+  font-weight: 400;
+  margin-top: 2px;
+  padding: 20px;
+}
+
+#portfolio-summary #market {
+  padding-top: 10px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+#portfolio-summary #market .n-val {
+  display: block;
+  padding-top: 2px;
+  font-size: 13px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+#gain {
+  margin-top: 20px;
+  display: flex;
+}
+
+#gain .dailygain,
+#gain .totalgain {
+  padding-top: 2px;
+  font-size: 13px;
+  color: #6c757d;
+  flex: 1;
+}
+
+#gain .dailygain > span,
+#gain .totalgain > span {
+  display: block;
+}
+
+#gain .dailygain .n-val.negative,
+#gain .totalgain .n-val.negative {
+  font-weight: 500;
+  color: #ba181b;
+}
+#gain .dailygain .n-val.positive,
+#gain .totalgain .n-val.positive {
+  font-weight: 500;
+  color: #2b9348;
+}
+
+#gain .dailygain .k-val,
+#gain .totalgain .k-val {
+  padding-top: 5px;
+  font-weight: 500;
+}
+
+#table {
+  height: 300px;
+  overflow-y: auto;
+}
+
+#table .table {
+  border-collapse: collapse;
+}
+
+#table .tcol {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6c757d;
+}
+
+#table .symbol-rows {
+  border-bottom: 1pt solid grey;
+}
+
+#table .val {
+  font-size: 12px;
+  font-weight: 400;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+#table .val.symbol {
+  font-weight: 700;
+  padding-right: 15px;
+  color: #0f69ff;
+}
+
+#table .val.positive {
+  color: #2b9348;
+}
+
+#table .val.negative {
+  color: #ba181b;
+}
+
+#table .val .span-data.animate-pos {
+  transition-property: background-color;
+  animation: blink-pos 2s 1;
+}
+
+@keyframes blink-pos {
+  10% {
+    background: #d8f3dc;
+    color: #000;
+  }
+  50% {
+    background: #90a955;
+    color: #000;
+  }
+  100% {
+    background: green;
+    color: #000;
+  }
+}
+
+#table .val .span-data.animate-neg {
+  transition-property: background-color;
+  animation: blink-neg 2s 1;
+}
+
+@keyframes blink-neg {
+  10% {
+    background: #ef7674;
+    color: #000;
+  }
+  50% {
+    background: #ec5766;
+    color: #000;
+  }
+  100% {
+    background: red;
+    color: #000;
+  }
+}
+#table .val .span-data {
+  padding: 2px;
+}
+
+#table .val .span-fullname {
+  padding-left: 2px;
+  padding-top: 2px;
+  color: #6c757d;
+  font-weight: 200;
+}
+
+#table .val span {
+  display: block;
+}
