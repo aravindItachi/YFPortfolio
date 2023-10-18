@@ -24,6 +24,7 @@ let intervalId;
 getData("https://7w9k9.wiremockapi.cloud/portfolios")
   .then((result) => {
     // update data Store.
+    console.log(result);
     portfolios.setPortFolioData(result);
     //console.log("portfolios", portfolios.getBasePortFolio());
     //console.log("pf", portfolios.getPortFolioMeta());
@@ -32,6 +33,8 @@ getData("https://7w9k9.wiremockapi.cloud/portfolios")
   })
   .catch((error) => {
     console.error(error);
+    document.getElementById("portfolio-summary").innerHTML =
+      "OOPS! Something went wrong!";
     // Update UI
   });
 
@@ -231,7 +234,6 @@ const getQuotes = () => {
     })
     .catch((error) => {
       console.error(error);
-      // Update UI
     });
 };
 //console.log("hi");
