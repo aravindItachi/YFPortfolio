@@ -19,9 +19,10 @@ let tbodyData = [];
 let pfIds = [];
 let toggle = false;
 let intervalId;
+const simulate_interval = 5000;
 
 // Get the PortFolio Data.
-getData("https://7w9k9.wiremockapi.cloud/portfolios")
+getData("https://s.yimg.com/cv/apiv2/finance/mocks/portfolioData.json")
   .then((result) => {
     // update data Store.
     console.log(result);
@@ -103,7 +104,7 @@ const updateBasePortFolioData = (pfId = "all") => {
 const generateSymBolTable = () => {
   const tableBodyData = constructTBodyData();
   generateTable(tableBodyData, quotes);
-  intervalId = setInterval(simulateStreaming, 8000);
+  intervalId = setInterval(simulateStreaming, simulate_interval);
 };
 
 const constructTBodyData = (pfId = "all") => {
@@ -218,7 +219,7 @@ const addDistincSymbols = (pfId) => {
 
 // Quotes API
 const getQuotes = () => {
-  getData("https://7w9k9.wiremockapi.cloud/quote")
+  getData("https://s.yimg.com/cv/apiv2/finance/mocks/quoteData.json")
     .then((result) => {
       quotes.setQuotesData(result);
       console.log("quotes", quotes.getAllQuotes());
