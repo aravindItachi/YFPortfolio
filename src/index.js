@@ -18,12 +18,13 @@ const decimalPlaces = 2;
 let tbodyData = [];
 let pfIds = [];
 let toggle = false;
+let intervalId;
 
 getData("https://7w9k9.wiremockapi.cloud/portfolios")
   .then((result) => {
     portfolios.setPortFolioData(result);
-    console.log("portfolios", portfolios.getBasePortFolio());
-    console.log("pf", portfolios.getPortFolioMeta());
+    //console.log("portfolios", portfolios.getBasePortFolio());
+    //console.log("pf", portfolios.getPortFolioMeta());
     // update data Store.
     // Update UI.
     getQuotes();
@@ -33,8 +34,14 @@ getData("https://7w9k9.wiremockapi.cloud/portfolios")
     // Update UI
   });
 
-const updateBasePortFolioData = () => {
-  const pdata = portfolios.getBasePortFolio();
+const updateBasePortFolioData = (pfId = "all") => {
+  let pdata;
+  if (pfId == "all") {
+    pdata = portfolios.getBasePortFolio();
+  } else {
+    pdata = portfolios.getPortFolio(pfId);
+  }
+
   const currMarkValue = pdata.currentMarketValue;
   const dailyGain = NumberFormatter(pdata.dailyGain, decimalPlaces);
   const dGPerct = NumberPercantageFormatter(
@@ -47,6 +54,8 @@ const updateBasePortFolioData = () => {
     decimalPlaces
   );
   const marketNode = document.getElementById("market");
+  // Not ideal, but ok since we are not setting any content.
+  marketNode.innerHTML = "";
   const spanNodeM = document.createElement("span");
   spanNodeM.className = "m-val";
   marketNode.appendChild(spanNodeM);
@@ -57,7 +66,7 @@ const updateBasePortFolioData = () => {
   marketNode.appendChild(addSpanNodeUtil("Market Value", "n-val"));
 
   const dailyGainNode = document.querySelector("#gain .dailygain");
-
+  dailyGainNode.innerHTML = "";
   dailyGainNode.appendChild(
     addSpanNodeUtil(dailyGain, "n-val " + addSpanColorClass(pdata.dailyGain))
   );
@@ -70,7 +79,7 @@ const updateBasePortFolioData = () => {
   dailyGainNode.appendChild(addSpanNodeUtil("Daily Gain", "k-val"));
 
   const totalGainNode = document.querySelector("#gain .totalgain");
-
+  totalGainNode.innerHTML = "";
   totalGainNode.appendChild(
     addSpanNodeUtil(totalGain, "n-val " + addSpanColorClass(pdata.totalGain))
   );
@@ -86,14 +95,25 @@ const updateBasePortFolioData = () => {
 const generateSymBolTable = () => {
   const tableBodyData = constructTBodyData();
   generateTable(tableBodyData, quotes);
-  setInterval(simulateStreaming, 8000);
+  intervalId = setInterval(simulateStreaming, 8000);
 };
 
-const constructTBodyData = () => {
-  const quotesList = quotes.getAllQuotes().values();
+const constructTBodyData = (pfId = "all") => {
+  let quotesList;
+  tbodyData = [];
+
+  if (pfId == "all") {
+    quotesList = quotes.getAllQuotes().values();
+  } else {
+    const pfData = portfolios.getPortFolioSymbols(pfId);
+    quotesList = pfData.map((symbol) => {
+      return quotes.getQuote(symbolValidator(symbol));
+    });
+  }
 
   for (const quote of quotesList) {
     let trow = [];
+    //console.log("quote", quote);
     const { symbol, regularMarketPrice, regularMarketChangePercent } = quote;
     trow.push(
       symbol,
@@ -106,7 +126,7 @@ const constructTBodyData = () => {
   return tbodyData;
 };
 
-const simulateStreaming = (isNegative) => {
+const simulateStreaming = () => {
   // the same number as the index
   removeAnimation();
   const randomNumber = Math.floor((Math.random() * tbodyData.length) / 2);
@@ -114,14 +134,14 @@ const simulateStreaming = (isNegative) => {
   const symbol = tbodyData[randomNumber][0];
   const priceChangePercent = quotes.getQuote(symbol).regularMarketChangePercent;
   if (priceChangePercent) {
-    console.log("price", priceChangePercent);
-    console.log("randome", changeRandomNumber);
+    //console.log("price", priceChangePercent);
+    //console.log("randome", changeRandomNumber);
     const changeRandom = toggle
       ? priceChangePercent + changeRandomNumber / 100
       : priceChangePercent - changeRandomNumber / 100;
     quotes.setQuoteChangePerc(symbol, changeRandom);
     const isPosChange = changeRandom > priceChangePercent ? true : false;
-    console.log("change", changeRandom);
+    //console.log("change", changeRandom);
     const changeNode = document.querySelector(
       `#table .val[data-symbol=${symbol}] .span-data`
     );
@@ -163,11 +183,21 @@ const addPortFolio = () => {
     option.innerText = metaInfo[1];
     selectNode.appendChild(option);
   });
+  // Add Event listener
+  selectNode.addEventListener("change", (event) => updatePortFolioData(event));
+};
+
+const updatePortFolioData = (event) => {
+  updateBasePortFolioData(event.target.value);
+  clearInterval(intervalId);
+  const tableBodyData = constructTBodyData(event.target.value);
+  generateTable(tableBodyData, quotes);
+  intervalId = setInterval(simulateStreaming, 8000);
 };
 
 const addDistincSymbols = (pfId) => {
   const portfolioSymbols = portfolios.getPortFolioSymbols(pfId);
-  console.log("debug2", portfolioSymbols);
+  //console.log("debug2", portfolioSymbols);
   portfolioSymbols.forEach((pos) => {
     const symbol = symbolValidator(pos);
     if (!quotes.hasQuote(symbol)) {
@@ -184,7 +214,7 @@ const getQuotes = () => {
       // update data Store.
       // Update UI.
       addPortFolio();
-      console.log("pfIDS", pfIds);
+      //console.log("pfIDS", pfIds);
       pfIds.forEach((pfId) => {
         addDistincSymbols(pfId);
       });
@@ -196,4 +226,4 @@ const getQuotes = () => {
       // Update UI
     });
 };
-console.log("hi");
+//console.log("hi");

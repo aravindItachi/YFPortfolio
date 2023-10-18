@@ -10,6 +10,8 @@ const tableClass = "table";
 
 export const generateTable = (tbodyData, quotes) => {
   let t;
+  console.log("table", tbodyData);
+  document.getElementById("table").innerHTML = "";
   const table = document.createElement("table");
   table.setAttribute("class", tableClass);
   const thead = document.createElement("thead");

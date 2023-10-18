@@ -117,7 +117,7 @@ body {
 #table .val {
   font-size: 12px;
   font-weight: 400;
-  padding-right: 20px;
+  padding-right: 40px;
   padding-top: 10px;
 }
 
@@ -142,15 +142,15 @@ body {
 
 @keyframes blink-pos {
   10% {
-    background: #d8f3dc;
+    background: #ccff33;
     color: #000;
   }
   50% {
-    background: #90a955;
+    background: #55a630;
     color: #000;
   }
   100% {
-    background: green;
+    background: #2b9348;
     color: #000;
   }
 }
@@ -162,7 +162,7 @@ body {
 
 @keyframes blink-neg {
   10% {
-    background: #ef7674;
+    background: #fbb1bd;
     color: #000;
   }
   50% {
@@ -170,7 +170,7 @@ body {
     color: #000;
   }
   100% {
-    background: red;
+    background: #d91e36;
     color: #000;
   }
 }

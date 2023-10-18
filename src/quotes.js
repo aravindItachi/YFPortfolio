@@ -17,10 +17,10 @@ export class Quotes {
     if (!quotes || !quotes.quoteResponse) {
       return;
     }
-
     quotes.quoteResponse.result.forEach((element) => {
       const symbolModifier = symbolValidator(element.symbol);
       element.symbol = symbolModifier;
+      console.log("symbol", symbolModifier);
       this.quotes.set(symbolModifier, element);
     });
   }
